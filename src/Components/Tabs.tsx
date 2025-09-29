@@ -1,13 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { useTabs } from '../Store/TabsContext';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 export const TabsList = () => {
   const tabs = useTabs();
   const { tabId } = useParams();
 
-  const selectedTabId = tabId ? tabId : '';
-  const selectedTab = tabs.find(t => t.id === tabId);
+  const activeTab = tabs.find(t => t.id === tabId) || null;
 
   return (
     <>
@@ -17,9 +16,7 @@ export const TabsList = () => {
             <li
               key={tab.id}
               data-cy="Tab"
-              className={classNames('', {
-                'is-active': selectedTabId === tab.id,
-              })}
+              className={cn({ 'is-active': tab.id === activeTab?.id })}
             >
               <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
             </li>
@@ -28,7 +25,7 @@ export const TabsList = () => {
       </div>
 
       <div className="block" data-cy="TabContent">
-        {!selectedTab ? <p>Please select a tab</p> : selectedTab.content}
+        {activeTab ? activeTab.content : <p>Please select a tab</p>}
       </div>
     </>
   );

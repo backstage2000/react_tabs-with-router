@@ -1,4 +1,4 @@
-import { TabsList } from '../Components/TabsList';
+import { TabsList } from '../Components';
 
 export const TabsPages = () => {
   return (
